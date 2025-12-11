@@ -7,7 +7,7 @@ This directory contains material on **Bayesian source localization** in a two‑
 
 The work combines:
 
-- A parametric measurement model \(p(z = 1 \mid x, s)\) that encodes how likely a sensor at position \(x\) observes a positive signal given a source at \(s\).
+- A parametric measurement model $p(z = 1 \mid x, s)$ that encodes how likely a sensor at position $x$ observes a positive signal given a source at $s$.
 - Monte Carlo simulation of sensor placements and measurements.
 - Grid‑based approximation of likelihoods and posterior beliefs over the source location.
 
@@ -25,26 +25,30 @@ The work combines:
 
 ### 3.1 Problem 1 – Measurement Visualization
 
-The first task visualizes 100 random sensor locations in the unit square \([0, 1] \times [0, 1]\) relative to a fixed source location. Each sensor records a binary measurement \(z \in \{0,1\}\) drawn from the measurement model
-\[
+The first task visualizes 100 random sensor locations in the unit square $[0, 1] \times [0, 1]$ relative to a fixed source location. Each sensor records a binary measurement $z \in \{0,1\}$ drawn from the measurement model
+
+$$
   p(z = 1 \mid x, s) = \exp\bigl(-100(\|x - s\| - 0.2)^2\bigr),
-\]
+$$
+
 which produces a ring‑shaped region of high positive‑signal probability around the source. The resulting plot overlays:
 
-- The true source (blue “X”),
+- The true source (blue "X"),
 - Positive measurements (green dots),
 - Negative measurements (red dots),
-- A grayscale background indicating \(p(z=1\mid x,s)\).
+- A grayscale background indicating $p(z=1\mid x,s)$.
 
 This provides intuition about the spatial structure of the measurement model.
 
 ### 3.2 Problem 2 – Likelihood Estimation
 
-Given the 100 measurements from Problem 1, Problem 2 constructs a **discrete likelihood map** over a grid of candidate source locations \(s\) in \([0,1]^2\). For each grid point, the likelihood is
-\[
+Given the 100 measurements from Problem 1, Problem 2 constructs a **discrete likelihood map** over a grid of candidate source locations $s$ in $[0,1]^2$. For each grid point, the likelihood is
+
+$$
   L(s) = \prod_{i=1}^{N} \Pr(z_i \mid x_i, s),
-\]
-where \(N = 100\) is the number of measurements, \(x_i\) is the sensor position, and \(z_i\) is the observed binary signal. The product is computed numerically and normalized for visualization, yielding a heat map that concentrates around the true source location.
+$$
+
+where $N = 100$ is the number of measurements, $x_i$ is the sensor position, and $z_i$ is the observed binary signal. The product is computed numerically and normalized for visualization, yielding a heat map that concentrates around the true source location.
 
 ### 3.3 Problem 3 – Fixed Location Trials
 
@@ -60,11 +64,13 @@ The corresponding figures show how the informativeness of measurements depends o
 Problem 4 reformulates source localization as **sequential Bayesian inference**. For a fixed sensor location \(x\):
 
 1. An initial **uniform prior** over source positions on a grid is specified.
-2. A sequence of 10 measurements \(\{z_1, \dots, z_{10}\}\) is collected.
-3. After each measurement, the belief \(b_t(s) = \Pr(s \mid z_{1:t})\) is updated via
-   \[
+2. A sequence of 10 measurements $\{z_1, \dots, z_{10}\}$ is collected.
+3. After each measurement, the belief $b_t(s) = \Pr(s \mid z_{1:t})$ is updated via
+
+   $$
      b_{t}(s) \propto b_{t-1}(s)\, \Pr(z_t \mid x, s),
-   \]
+   $$
+
    followed by normalization.
 
 The resulting 2×5 panel figure shows how the belief becomes progressively more concentrated around the true source as more independent evidence is accumulated.
@@ -73,11 +79,12 @@ The resulting 2×5 panel figure shows how the belief becomes progressively more 
 
 Finally, Problem 5 generalizes the sequential update to the case of a **moving sensor**, which visits a different random location at each time step:
 
-- At step \(t\), the sensor is at \(x_t\) and observes \(z_t\).
+- At step $t$, the sensor is at $x_t$ and observes $z_t$.
 - The belief update becomes
-  \[
+
+  $$
     b_t(s) \propto b_{t-1}(s)\, \Pr(z_t \mid x_t, s).
-  \]
+  $$
 
 The associated 2×5 grid plot illustrates how a mobile sensor can actively explore the space while still driving the belief toward the true source location. Compared with the fixed‑sensor setting, mobility changes the spatial pattern of information acquisition but retains the same Bayesian update structure.
 

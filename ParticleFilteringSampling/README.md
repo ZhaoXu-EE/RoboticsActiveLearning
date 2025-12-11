@@ -23,26 +23,27 @@ The work highlights how sampling‑based methods can represent complex, non‑Ga
 
 ### 3.1 Target Distribution
 
-An input grayscale image (`lincoln.jpg`) is treated as a **discrete probability map** over the unit square. Let \(I(i,j)\) denote the pixel intensity at row \(i\), column \(j\). After inverting intensities so that darker pixels correspond to **higher probability**, a discrete mass function is obtained and normalized:
-\[
+An input grayscale image (`lincoln.jpg`) is treated as a **discrete probability map** over the unit square. Let $I(i,j)$ denote the pixel intensity at row $i$, column $j$. After inverting intensities so that darker pixels correspond to **higher probability**, a discrete mass function is obtained and normalized:
+
+$$
   p_{ij} = \frac{\tilde{I}(i,j)}{\sum_{k,\ell} \tilde{I}(k,\ell)}, \qquad
   \tilde{I}(i,j) = 255 - I(i,j).
-\]
+$$
 
-Conceptually, this defines a continuous density \(f(x,y)\) over \((x,y) \in [0,1]^2\) by mapping each coordinate to the corresponding pixel.
+Conceptually, this defines a continuous density $f(x,y)$ over $(x,y) \in [0,1]^2$ by mapping each coordinate to the corresponding pixel.
 
 ### 3.2 Rejection Sampling with Different Proposals
 
 Two rejection samplers are implemented:
 
-1. **Uniform proposal** over the unit square, where candidate samples \((x,y)\) are drawn uniformly and accepted with probability proportional to \(f(x,y)\).
-2. **Truncated Gaussian proposal**, where candidates are drawn from a Gaussian centered in the image (e.g. at \((0.5, 0.5)\)) and rejected if they fall outside \([0,1]^2\).
+1. **Uniform proposal** over the unit square, where candidate samples $(x,y)$ are drawn uniformly and accepted with probability proportional to $f(x,y)$.
+2. **Truncated Gaussian proposal**, where candidates are drawn from a Gaussian centered in the image (e.g. at $(0.5, 0.5)$) and rejected if they fall outside $[0,1]^2$.
 
 For each proposal:
 
 - A large number of candidate samples are generated.
-- The target density \(f(x,y)\) is evaluated and compared to a known upper bound \(f_{\max}\).
-- Candidates are accepted according to the rejection sampling criterion \(u < f(x,y)/f_{\max}\), with \(u \sim \mathcal{U}[0,1]\).
+- The target density $f(x,y)$ is evaluated and compared to a known upper bound $f_{\max}$.
+- Candidates are accepted according to the rejection sampling criterion $u < f(x,y)/f_{\max}$, with $u \sim \mathcal{U}[0,1]$.
 
 The final figure `rejection_sampling.png` shows:
 
@@ -59,8 +60,8 @@ The second problem implements a **particle filter** for robot pose estimation in
 
 The particle filter is defined by:
 
-- A **process model** \(x_{t} = f(x_{t-1}, u_t, w_t)\), capturing robot motion with control input \(u_t\) and process noise \(w_t\).
-- A **measurement model** \(z_t = h(x_t, v_t)\), relating state to observations with measurement noise \(v_t\).
+- A **process model** $x_{t} = f(x_{t-1}, u_t, w_t)$, capturing robot motion with control input $u_t$ and process noise $w_t$.
+- A **measurement model** $z_t = h(x_t, v_t)$, relating state to observations with measurement noise $v_t$.
 
 Particles represent hypotheses about the robot state, and are updated in three stages at each time step:
 

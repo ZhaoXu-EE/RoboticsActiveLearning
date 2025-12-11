@@ -27,27 +27,31 @@ Ergodic control provides a rigorous framework for coverage and exploration tasks
 
 ### 3.1 Target Distribution and Ergodicity
 
-Let \(\phi(x)\) denote a **target spatial density** over a domain \(\mathcal{X} \subset \mathbb{R}^d\) that encodes where the robot should spend time (e.g. a Gaussian mixture). The goal of ergodic control is to design a control signal \(u(t)\) such that the robot trajectory \(x(t)\) satisfies, in a time‑averaged sense,
-\[
+Let $\phi(x)$ denote a **target spatial density** over a domain $\mathcal{X} \subset \mathbb{R}^d$ that encodes where the robot should spend time (e.g. a Gaussian mixture). The goal of ergodic control is to design a control signal $u(t)$ such that the robot trajectory $x(t)$ satisfies, in a time‑averaged sense,
+
+$$
   \frac{1}{T} \int_0^T f(x(t))\, dt
   \approx
   \int_{\mathcal{X}} f(x)\, \phi(x)\, dx
-\]
-for a suitable class of test functions \(f\). In practice, both the trajectory and the target distribution are projected into a truncated **Fourier basis**, and a quadratic cost penalizes discrepancies between their coefficients.
+$$
+
+for a suitable class of test functions $f$. In practice, both the trajectory and the target distribution are projected into a truncated **Fourier basis**, and a quadratic cost penalizes discrepancies between their coefficients.
 
 ### 3.2 iLQR for Ergodic Objectives
 
 For each dynamical system, an objective of the form
-\[
+
+$$
   J = \sum_{k} \Lambda_k \bigl( c_k(x(\cdot)) - \Phi_k \bigr)^2
       + \int_0^T u(t)^\top R u(t)\, dt
-\]
+$$
+
 is minimized, where:
 
-- \(\Phi_k\) are the Fourier coefficients of \(\phi(x)\) (stored in `problem1_fourier_target.npz`),
-- \(c_k(x(\cdot))\) are the time‑averaged Fourier coefficients of the trajectory,
-- \(\Lambda_k\) are mode‑dependent weights,
-- \(R\) is a positive‑definite control cost matrix.
+- $\Phi_k$ are the Fourier coefficients of $\phi(x)$ (stored in `problem1_fourier_target.npz`),
+- $c_k(x(\cdot))$ are the time‑averaged Fourier coefficients of the trajectory,
+- $\Lambda_k$ are mode‑dependent weights,
+- $R$ is a positive‑definite control cost matrix.
 
 iLQR is used to iteratively:
 
@@ -59,21 +63,23 @@ iLQR is used to iteratively:
 ## 4. Problem 1 – First‑Order System
 
 The first problem considers a **single‑integrator** model
-\[
+
+$$
   \dot{x}(t) = u(t),
-\]
+$$
+
 in a planar domain with a Gaussian‑mixture target density. The figure `HW5_Problem1.png` presents:
 
 - **Left panel**: the optimized trajectory overlaid on the target density, showing repeated sweeps through high‑probability regions, consistent with spatial ergodicity.
-- **Center panel**: control inputs \(u_x(t)\) and \(u_y(t)\), which remain smooth and low‑amplitude, indicating energy‑efficient motion.
+- **Center panel**: control inputs $u_x(t)$ and $u_y(t)$, which remain smooth and low‑amplitude, indicating energy‑efficient motion.
 - **Right panel**: objective value versus iLQR iteration, with a rapid initial decrease followed by a plateau near zero, demonstrating successful convergence.
 
 ## 5. Problem 2 – Second‑Order (Double‑Integrator) System
 
 The second problem upgrades the dynamics to a **double integrator**, where acceleration is the control input. Qualitatively:
 
-- The robot’s trajectory is initially straighter and exhibits more inertia, only later curving to better match the target density.
-- Control inputs \(u_1(t)\) and \(u_2(t)\) show higher‑frequency components, as they must regulate both position and velocity.
+- The robot's trajectory is initially straighter and exhibits more inertia, only later curving to better match the target density.
+- Control inputs $u_1(t)$ and $u_2(t)$ show higher‑frequency components, as they must regulate both position and velocity.
 
 The figure `HW5_Problem2.png` reports:
 
@@ -85,13 +91,13 @@ The figure `HW5_Problem2.png` reports:
 
 The third problem addresses a **non‑holonomic** differential‑drive robot. The state includes planar position and heading, while the control inputs are:
 
-- Forward velocity \(v(t)\),
-- Angular velocity \(\omega(t)\).
+- Forward velocity $v(t)$,
+- Angular velocity $\omega(t)$.
 
 The figure `HW5_Problem3.png` shows:
 
 - **Left panel**: a piecewise‑linear‑like closed loop that sweeps the main modes of the Gaussian mixture while respecting non‑holonomic constraints.
-- **Center panel**: time histories of \(v(t)\) and \(\omega(t)\), with coupled bursts of speed and steering required to pivot and realign with ergodic targets.
+- **Center panel**: time histories of $v(t)$ and $\omega(t)$, with coupled bursts of speed and steering required to pivot and realign with ergodic targets.
 - **Right panel**: the objective value over six iLQR iterations, decreasing monotonically and stabilizing at a low level, confirming convergence to an ergodic solution.
 
 ## 7. Relation to Course Themes

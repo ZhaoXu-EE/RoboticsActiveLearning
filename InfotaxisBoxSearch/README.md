@@ -33,41 +33,49 @@ Internally, the environment provides:
 
 ### 2.2 Bayesian Belief
 
-Let \(N\) denote the number of boxes. The agent maintains a **categorical belief** over boxes
-\[
+Let $N$ denote the number of boxes. The agent maintains a **categorical belief** over boxes
+
+$$
   b(i) = \Pr(\text{box } i \text{ is interesting}), \quad i = 1, \dots, N,
-\]
-subject to \(\sum_i b(i) = 1\). In the implementation:
+$$
+
+subject to $\sum_i b(i) = 1$. In the implementation:
 
 - `belief` is a 1‑D NumPy array of length `n_boxes`.
 - The prior is initialized as a uniform distribution:
-  \[
+
+  $$
     b_0(i) = \frac{1}{N}, \quad \forall i.
-  \]
+  $$
 
 ### 2.3 Measurement Model
 
 For any robot pose `x` and box index `i`, the environment exposes
-\[
+
+$$
   p_1(x, i) := \Pr(z = 1 \mid x, i),
-\]
-where \(z \in \{0,1\}\) is a binary measurement (e.g. 1 = positive signal, 0 = negative). The helper `likelihood(reading_one, robot_pose, box_id)` is a thin wrapper around this generative model and returns
-\[
+$$
+
+where $z \in \{0,1\}$ is a binary measurement (e.g. 1 = positive signal, 0 = negative). The helper `likelihood(reading_one, robot_pose, box_id)` is a thin wrapper around this generative model and returns
+
+$$
   \Pr(z = 1 \mid x, i) \quad \text{or} \quad \Pr(z = 0 \mid x, i) = 1 - p_1(x, i).
-  \]
+$$
 
 ### 2.4 Bayesian Update
 
-Suppose at time step \(t\), the agent senses box \(j\) from pose \(x_t\) and observes \(z_t \in \{0,1\}\). The belief over *which box is interesting* is updated via Bayes’ rule:
-\[
+Suppose at time step $t$, the agent senses box $j$ from pose $x_t$ and observes $z_t \in \{0,1\}$. The belief over *which box is interesting* is updated via Bayes' rule:
+
+$$
   b_{t+1}(i) \propto b_t(i) \, \Pr(z_t \mid x_t, i),
-\]
-with normalization \(\sum_i b_{t+1}(i) = 1\).  
+$$
+
+with normalization $\sum_i b_{t+1}(i) = 1$.  
 
 In `final.py`, this update is implemented in a lightweight way, exploiting the fact that at each step only a **single** box is probed:
 
-- The measurement \(z_t\) is associated with some `box_idx`.
-- Only `belief[box_idx]` is scaled by either \(p_1\) or \(1 - p_1\).
+- The measurement $z_t$ is associated with some `box_idx`.
+- Only `belief[box_idx]` is scaled by either $p_1$ or $1 - p_1$.
 - The entire belief is then renormalized.
 
 This preserves computational efficiency even for moderately large grids (tens of boxes).
@@ -77,39 +85,45 @@ This preserves computational efficiency even for moderately large grids (tens of
 ### 3.1 Entropy as an Uncertainty Measure
 
 The agent quantifies uncertainty in the belief using the **Shannon entropy**
-\[
+
+$$
   H(b) = - \sum_{i=1}^{N} b(i) \log b(i),
-\]
+$$
+
 implemented in `entropy(b)`. To avoid numerical issues, logarithms are only taken for entries significantly greater than zero.
 
 ### 3.2 Look‑ahead: Expected Posterior Entropy
 
-For each legal action \(a\) in the current pose \(x\), the agent:
+For each legal action $a$ in the current pose $x$, the agent:
 
-1. Uses `env.unwrapped.predict_pose(x, a)` to compute the hypothetical next pose \(x'\).
-2. For each box \(i\), queries \(p_1(x', i) = \Pr(z=1 \mid x', i)\).
+1. Uses `env.unwrapped.predict_pose(x, a)` to compute the hypothetical next pose $x'$.
+2. For each box $i$, queries $p_1(x', i) = \Pr(z=1 \mid x', i)$.
 3. Forms two hypothetical posterior beliefs:
-   - \(b^{(1)}\): posterior if the next observation is \(z = 1\).
-   - \(b^{(0)}\): posterior if the next observation is \(z = 0\).
-4. Computes corresponding entropies \(H_1 = H(b^{(1)})\) and \(H_0 = H(b^{(0)})\).
+   - $b^{(1)}$: posterior if the next observation is $z = 1$.
+   - $b^{(0)}$: posterior if the next observation is $z = 0$.
+4. Computes corresponding entropies $H_1 = H(b^{(1)})$ and $H_0 = H(b^{(0)})$.
 5. Computes the **predictive probability of a positive measurement**
-   \[
+
+   $$
      p_{\text{meas} = 1} = \sum_i b(i) \, p_1(x', i),
-   \]
-   and thus \(p_{\text{meas} = 0} = 1 - p_{\text{meas} = 1}\).
+   $$
+
+   and thus $p_{\text{meas} = 0} = 1 - p_{\text{meas} = 1}$.
 6. Evaluates the **expected posterior entropy**
-   \[
+
+   $$
      \mathbb{E}[H(b')] = p_{\text{meas} = 1} H_1 + (1 - p_{\text{meas} = 1}) H_0.
-   \]
+   $$
 
 This logic is encapsulated in the function `expected_entropy_after(action, robot_pose)`.
 
 ### 3.3 Action Selection: Maximizing Information Gain
 
-Let \(H_{\text{curr}}\) denote the entropy of the current belief. For each candidate action \(a\), the **expected information gain** is defined as
-\[
+Let $H_{\text{curr}}$ denote the entropy of the current belief. For each candidate action $a$, the **expected information gain** is defined as
+
+$$
   \text{Gain}(a) = H_{\text{curr}} - \mathbb{E}[H(b' \mid a)].
-  \]
+$$
 
 The infotaxis policy is then:
 
