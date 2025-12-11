@@ -1,9 +1,9 @@
-ErgodicControl – ME455 Homework 5
-=================================
+ErgodicControl – Ergodic Control for Robotic Exploration
+========================================================
 
 ## 1. Overview
 
-This directory contains the material for **ME455 Homework 5** on **ergodic control**. The assignment studies how to design control inputs so that a robot’s time‑averaged visitation statistics match a prescribed spatial distribution, using variants of the iterative linear quadratic regulator (iLQR) for different dynamical systems:
+This directory contains material on **ergodic control**. The work studies how to design control inputs so that a robot’s time‑averaged visitation statistics match a prescribed spatial distribution, using variants of the iterative linear quadratic regulator (iLQR) for different dynamical systems:
 
 1. A **first‑order** (single‑integrator) system,
 2. A **second‑order** (double‑integrator) system,

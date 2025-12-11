@@ -3,7 +3,7 @@ InfotaxisBoxSearch – Bayesian Infotaxis Agent for BoxSearch-v0
 
 ## 1. Overview
 
-This repository contains the final project for the MurpheyLab *ME455* course: an autonomous “box finder” implemented as an **infotaxis** search agent for the `BoxSearch-v0` Gym environment.  
+This directory contains an autonomous “box finder” implemented as an **infotaxis** search agent for the `BoxSearch-v0` Gym environment.  
 
 The agent maintains a Bayesian belief over which box in a grid is "interesting" (e.g., contains a target) and chooses actions that **maximize the expected information gain**, measured via the reduction in Shannon entropy of the belief. The implementation is intentionally compact and self‑contained to serve as both a working demo and a pedagogical reference.
 
@@ -208,11 +208,11 @@ If run in a headless environment, you may wish to:
 - **Myopic policy**: The one‑step greedy infotaxis rule may be sub‑optimal in environments where long‑term planning is critical, though it typically performs well in practice.
 - **Environment dependence**: The implementation assumes access to environment internals (`unwrapped` attributes). Porting to a different environment may require adapting these interfaces.
 
-## 7. Relation to Course Material
+## 7. Conceptual Background
 
-This project builds on several key ideas from ME455:
+This project builds on several key ideas in probabilistic robotics and control:
 
-- **Bayesian filtering** and belief updates (HW1 & HW2).
+- **Bayesian filtering** and belief updates.
 - **Information‑theoretic objective functions** (entropy, mutual information).
 - **Search and exploration strategies** that go beyond naive random or greedy exploitation.
 
@@ -222,6 +222,6 @@ The code thus serves as a concrete, end‑to‑end example of applying Bayesian 
 
 - Vergassola, M., Villermaux, E., & Shraiman, B. I. (2007). *"Infotaxis" as a strategy for searching without gradients.* Nature, 445(7126), 406–409.
 - Sutton, R. S., & Barto, A. G. (2018). *Reinforcement Learning: An Introduction* (2nd ed.). MIT Press.
-- MurpheyLab ME455 course materials (Northwestern University), for the original project specification and environment.
+  (for background on reinforcement learning and decision making under uncertainty).
 
 

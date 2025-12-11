@@ -1,15 +1,14 @@
-# ME455 – Robotic Sensing and Control Portfolio
+# RoboticsActiveLearning
 
 ## 1. Overview
 
-This repository collects a sequence of projects and homework assignments for the course **ME455 – Robotic Sensing and Control** (MurpheyLab). Taken together, they form a compact portfolio covering:
+This repository, **RoboticsActiveLearning**, collects a sequence of projects and homework-style modules on **active information acquisition in robotics**. Taken together, they form a compact portfolio covering:
 
 - **Bayesian modeling and inference** for source localization,  
 - **Information-driven exploration** and **infotaxis**,  
 - **Sampling-based inference** (rejection sampling, particle filtering),  
-- **Optimal control and trajectory optimization** (gradient methods, iLQR),  
-- **Ergodic control** for coverage and exploration,  
-- A final project implementing an **infotaxis search agent** in a custom Gym environment.
+- **Optimal and ergodic control** for coverage-oriented motion planning,  
+- A final project implementing an **information-seeking search agent** in a custom Gym environment.
 
 The six subdirectories each correspond to a focused module that builds on earlier concepts and tools.
 

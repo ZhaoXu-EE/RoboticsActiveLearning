@@ -1,9 +1,9 @@
-ParticleFilteringSampling – ME455 Homework 3
-============================================
+ParticleFilteringSampling – Sampling and Particle Filtering
+===========================================================
 
 ## 1. Overview
 
-This directory contains the material for **ME455 Homework 3** on **Monte Carlo sampling and particle filtering**. The assignment has two main components:
+This directory contains material on **Monte Carlo sampling and particle filtering**. The work has two main components:
 
 1. **Rejection sampling** from a probability distribution defined implicitly by a grayscale image.
 2. A **particle filter** for robot pose estimation, visualized via a one‑dimensional projection.

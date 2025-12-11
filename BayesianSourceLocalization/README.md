@@ -1,9 +1,9 @@
-BayesianSourceLocalization – ME455 Homework 1
-============================================
+BayesianSourceLocalization – Bayesian Source Localization Module
+================================================================
 
 ## 1. Overview
 
-This directory contains the material for **ME455 Homework 1** on **Bayesian source localization** in a two‑dimensional domain. The exercises investigate how noisy binary measurements from spatially distributed sensors can be used to infer the location of an unknown source, both in batch form and via sequential Bayesian updating.
+This directory contains material on **Bayesian source localization** in a two‑dimensional domain. The exercises investigate how noisy binary measurements from spatially distributed sensors can be used to infer the location of an unknown source, both in batch form and via sequential Bayesian updating.
 
 The work combines:
 

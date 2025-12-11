@@ -1,9 +1,9 @@
-OptimalControl – ME455 Homework 4
-=================================
+OptimalControl – Optimal Control and Numerical Optimization
+===========================================================
 
 ## 1. Overview
 
-This directory contains the material for **ME455 Homework 4** on **optimal control and numerical optimization**. The assignment has three main components:
+This directory contains material on **optimal control and numerical optimization**. The work has three main components:
 
 1. A derivation of the **two‑point boundary value problem (TPBVP)** underlying an iterative linear quadratic regulator (iLQR) scheme.
 2. Implementation of **gradient descent with Armijo line search** on a quadratic function.

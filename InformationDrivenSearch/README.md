@@ -1,9 +1,9 @@
-InformationDrivenSearch – ME455 Homework 2
-==========================================
+InformationDrivenSearch – Information-Driven Exploration
+========================================================
 
 ## 1. Overview
 
-This directory contains the material for **ME455 Homework 2** on **information‑driven exploration and infotaxis**. The assignment analyzes and implements search strategies that explicitly trade off exploration and exploitation using Bayesian beliefs and information‑theoretic metrics.
+This directory contains material on **information‑driven exploration and infotaxis**. The work analyzes and implements search strategies that explicitly trade off exploration and exploitation using Bayesian beliefs and information‑theoretic metrics.
 
 The work comprises:
 
